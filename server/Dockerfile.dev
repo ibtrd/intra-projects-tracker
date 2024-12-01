@@ -3,7 +3,8 @@ FROM node:23-alpine3.19
 WORKDIR /app
 COPY package*.json .
 
-RUN npm install -g nodemon
+RUN npm install && \
+    npm install -g nodemon
 
 EXPOSE 4000
 ENTRYPOINT [ "nodemon", "index.js" ]

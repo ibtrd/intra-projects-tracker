@@ -1,14 +1,14 @@
 services:
   server:
     build:
+      context: ./server
       dockerfile: Dockerfile.dev
     restart: always
     ports:
-      - 4000:4000
+      - 4000:4000   
     volumes:
-      - ./srcs:/app
-      - ./node_modules:/app/node_modules
-      - /home/ibertran/projects/42exam-tracker/node_modules/@ibertran/api42:/app/node_modules/@ibertran/api42
+      - ./server/srcs:/app
+      - /app/node_modules
     environment:
       API42_UID: ${API42_UID}
       API42_SECRET: ${API42_SECRET}
