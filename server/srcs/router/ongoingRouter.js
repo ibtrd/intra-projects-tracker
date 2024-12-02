@@ -1,6 +1,4 @@
 const express = require("express");
-const Project = require("../mongo_models/Project");
-const { api42 } = require("../intranet/api42");
 const ActiveTeam = require("../mongo_models/ActiveTeam");
 const ongoingRouter = express.Router();
 

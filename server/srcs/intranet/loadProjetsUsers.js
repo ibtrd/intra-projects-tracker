@@ -2,6 +2,7 @@ const ActiveTeam = require("../mongo_models/ActiveTeam");
 const Project = require("../mongo_models/Project");
 const ProjectUser = require("../mongo_models/ProjectUser");
 const User = require("../mongo_models/User");
+const { wsBroadcast } = require("../router/websocket");
 const { api42 } = require("./api42")
 
 let lastUpdate = new Date(0);
@@ -21,6 +22,7 @@ module.exports.loadProjectUsers = async function () {
     const now = new Date();
     now.setMinutes(now.getMinutes() - 5);
     lastUpdate = now;
+    wsBroadcast("tructruc!");
 }
 
 async function loadProject(project, options) {

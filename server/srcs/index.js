@@ -1,12 +1,13 @@
 const express = require('express');
+const app = express();
+var expressWs = require('express-ws')(app);
+
 const mongoose = require('mongoose');
 const Project = require('./mongo_models/Project');
-const router = require('./router/router');
 const cron = require('node-cron');
+const { router } = require('./router/router');
 const { loadProjectUsers } = require('./intranet/loadProjetsUsers');
 const { api42 } = require('./intranet/api42');
-
-const app = express();
 
 // Configure router
 app.use("/", router);
