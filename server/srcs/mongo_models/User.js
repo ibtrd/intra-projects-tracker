@@ -5,6 +5,13 @@ const UserSchema = new mongoose.Schema({
     login: { type: String, required: true }
 });
 
-const User = mongoose.model("User", UserSchema);
+UserSchema.statics.getById = async function(intraUser) {
+    const find = await this.findOne({ id: intraUser.id });
+    return find ? find : await User.create({
+        id: intraUser.id,
+        login: intraUser.login
+    });
+}
 
+const User = mongoose.model("User", UserSchema);
 module.exports = User;

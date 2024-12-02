@@ -2,24 +2,18 @@ services:
   server:
     build:
       context: ./server
-      dockerfile: Dockerfile.dev
-    container_name: server
+      dockerfile: Dockerfile.prod
     restart: always
     ports:
-      - 4000:4000   
-    volumes:
-      - ./server/srcs:/app
-      - /app/node_modules
+      - 4000:4000
     environment:
       API42_UID: ${API42_UID}
       API42_SECRET: ${API42_SECRET}
-      API42_DEV: true
       MONGO_URL: ${MONGO_URL}
       MONGO_DATABASE: ${MONGO_DATABASE}
 
   mongo:
     image: mongo
-    container_name: mongo
     restart: always
     volumes:
       - database:/data/db
@@ -28,7 +22,6 @@ services:
 
   mongo-express:
     image: mongo-express
-    container_name: mongo-express
     restart: always
     ports:
       - 8081:8081
@@ -40,7 +33,6 @@ services:
 
   redis:
     image: redis
-    container_name: redis
     restart: always
     volumes:
       - redis:/data

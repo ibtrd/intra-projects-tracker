@@ -6,10 +6,20 @@ const ProjectUserSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     final_mark: { type: Number, default: null },
     validated: { type: Boolean, default: false },
-    current_team: {
-        grade: { type: Number, default: 0 },
-    }
 });
+
+ProjectUserSchema.statics.syncIntra = async function(project, user, intra) {
+    return this.findOneAndUpdate(
+        { id: intra.id },
+        {
+            project: project,
+            user: user,
+            final_mark: intra.final_mark,
+            validated: intra.validated,
+        },
+        { upsert: true, new: true } 
+    )
+}
 
 const ProjectUser = mongoose.model("ProjectUser", ProjectUserSchema);
 
