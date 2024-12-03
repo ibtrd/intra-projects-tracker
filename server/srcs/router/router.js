@@ -20,26 +20,13 @@ router.ws('/:project_id/notify', async function (ws, req) {
     }
 
     if (!wsClients.has(project_id)) {
-        wsClients.set(project_id, []);
+        wsClients.set(project_id, { payload: { start: [], update: [], end: [] }, clients: [] });
     }
-    ws.project_id = project_id;
-    wsClients.get(project_id).push(ws);
-    console.log(`WebSocket ${project_id}#${wsClients.get(project_id).length} connection established`);
-
+    wsClients.get(project_id).clients.push(ws);
+    console.log(`WebSocket ${project_id}#${wsClients.get(project_id).clients.length} connection established`);
+    
     ws.on('message', (msg) => {
       console.log('Websocket received: ', msg);
-    });
-
-    ws.on('close', () => {
-        console.log('WebSocket connection closed');
-        const projectClients = wsClients.get(ws.project_id);
-        const index = projectClients.indexOf(ws)
-        if (index !== -1) {
-            projectClients.splice(index, 1);
-        }
-        if (projectClients.length === 0) {
-            wsClients.delete(project_id);
-        }
     });
 });
 

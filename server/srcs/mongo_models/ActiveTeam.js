@@ -6,7 +6,7 @@ const ActiveTeamSchema = new mongoose.Schema({
     project: { type: mongoose.Schema.Types.ObjectId, ref: "Project", required: true },
     grade: { type: Number, required: true },
     terminating_at: { type: Date, required: true },
-    closed_at: { type: Date, default: null }
+    closed_at: { type: Date, default: null },
 });
 
 const ActiveTeam = mongoose.model("ActiveTeam", ActiveTeamSchema);
