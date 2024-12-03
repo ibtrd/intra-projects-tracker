@@ -20,7 +20,6 @@ mongoose.connect(mongoURI).then(async () => {
   const port = 4000;
   app.listen(port, () => console.log(`Server is running on port ${port}`));
   await loadExams();
-  await addAlone();
   await loadProjectUsers();
   cron.schedule('* * * * *', loadProjectUsers); // Every minute
   // cron.schedule('* 9-15 * * 2', loadProjectUsers); //Tuesday Exam
@@ -48,12 +47,4 @@ async function loadExams() {
   } catch (err) {
     console.error(`Failed to load exams: ${err}`);
   }
-}
-
-async function addAlone() {
-	return await Project.findOneAndUpdate(
-		{ id: 2310 }, 
-		{ name: "Alone in the Dark" },
-		{ upsert: true, new: true }
-	  );
 }
