@@ -4,6 +4,7 @@ const { api42 } = require("../intranet/api42");
 const projectsRouter = express.Router();
 
 projectsRouter.get('/:project_id/leaderboard', sendLeaderboard);
+projectsRouter.get('/', sendProjects);
 
 module.exports = projectsRouter;
 
@@ -32,3 +33,16 @@ async function sendLeaderboard(req, res) {
 }
 
 function isNumber(n) { return /^-?[\d.]+(?:e-?\d+)?$/.test(n); }
+
+async function sendProjects(req, res) {
+    const projects = await Project.find({});
+    if (!projects) {
+        res.sendStatus(500);
+    }
+    res.send(projects.map(project => {
+        return {
+            id: project.id,
+            name: project.name,
+        }
+    }))
+}
