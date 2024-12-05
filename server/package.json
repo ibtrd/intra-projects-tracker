@@ -6,7 +6,7 @@
     "start": "node --env-file=.env srcs/index.js"
   },
   "dependencies": {
-    "@ibertran/api42": "^1.2.2",
+    "@ibertran/api42": "^2.0.0",
     "express": "^4.21.1",
     "express-ws": "^5.0.2",
     "mongoose": "^8.8.3",

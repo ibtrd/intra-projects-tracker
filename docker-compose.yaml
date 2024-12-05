@@ -38,13 +38,6 @@ services:
       ME_CONFIG_BASICAUTH_USERNAME: ${ME_WEB_USERNAME}
       ME_CONFIG_BASICAUTH_PASSWORD: ${ME_WEB_PASSWORD}
 
-  redis:
-    image: redis
-    container_name: redis
-    restart: always
-    volumes:
-      - redis:/data
-
 volumes:
   database:
   redis:
