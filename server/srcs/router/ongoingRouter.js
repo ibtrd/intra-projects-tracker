@@ -21,7 +21,14 @@ async function ongoingProjectUsers(req, res) {
         closed_at: entry.closed_at,
       };
     });
-    res.send(payload.sort((a, b) => b.grade - a.grade));
+    res.send(
+      payload.sort((a, b) => {
+        if (b.grade !== a.grade) {
+          return b.grade - a.grade;
+        }
+        return new Date(a.closed_at) - new Date(b.closed_at);
+      })
+    );
   } catch (err) {
     return res.status(400).send(err);
   }
