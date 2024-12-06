@@ -3,23 +3,26 @@ const mongoose = require("mongoose");
 const ProjectSchema = new mongoose.Schema({
   id: { type: Number, required: true, unique: true },
   name: { type: String, required: true },
+  exam: { type: Boolean, default: false },
   tracking: { type: Boolean, default: false },
 });
 
 ProjectSchema.methods.track = async function () {
   if (this.tracking) {
-    return this;
+    return true;
   }
   this.tracking = true;
-  return await this.save();
+  this.save();
+  return false;
 };
 
 ProjectSchema.methods.untrack = async function () {
   if (!this.tracking) {
-    return this;
+    return true;
   }
   this.tracking = false;
-  return await this.save();
+  this.save();
+  return false;
 };
 
 const Project = mongoose.model("Project", ProjectSchema);

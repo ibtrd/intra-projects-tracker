@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const ActiveTeamSchema = new mongoose.Schema({
+const ActiveExamSchema = new mongoose.Schema({
   id: { type: Number, required: true, unique: true },
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   project: {
@@ -12,6 +12,6 @@ const ActiveTeamSchema = new mongoose.Schema({
   closed_at: { type: Date, default: null },
 });
 
-const ActiveTeam = mongoose.model("ActiveTeam", ActiveTeamSchema);
+const ActiveExam = mongoose.model("ActiveExam", ActiveExamSchema);
 
-module.exports = ActiveTeam;
+module.exports = ActiveExam;

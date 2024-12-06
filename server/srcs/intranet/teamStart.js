@@ -1,9 +1,9 @@
-const ActiveTeam = require("../mongo_models/ActiveTeam");
+const ActiveExam = require("../mongo_models/ActiveExam");
 const { wsAddtoPayload } = require("../websocket/websocket");
 
-module.exports.teamStart = async function (intraTeam, project, user) {
+async function teamStart(intraTeam, project, user) {
   console.log(`${user.login} started ${project.name}!`);
-  const activeTeam = await ActiveTeam.create({
+  const activeTeam = await ActiveExam.create({
     id: intraTeam.id,
     user: user,
     project: project,
@@ -16,3 +16,5 @@ module.exports.teamStart = async function (intraTeam, project, user) {
   });
   return activeTeam;
 };
+
+module.exports = teamStart;

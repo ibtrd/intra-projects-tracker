@@ -11,11 +11,13 @@ const wsClients = new Map();
 
 router.ws("/:project_id/notify", async function (ws, req) {
   const { project_id } = req.params;
+  let project;
   try {
-    const project = await Project.findOne({ id: project_id });
+    project = await Project.findOne({ id: project_id });
     if (!project) throw new Error("Project not found");
     await project.track();
   } catch (err) {
+    console.error(err);
     return ws.close(1008, "Invalid project_id");
   }
 
@@ -25,11 +27,11 @@ router.ws("/:project_id/notify", async function (ws, req) {
       clients: [],
     });
   }
-  // ws.project_id = project_id;
   wsClients.get(project_id).clients.push(ws);
   console.log(
     `WebSocket ${project_id}#${wsClients.get(project_id).clients.indexOf(ws)} connection established`,
   );
+  // ws.send(JSON.stringify({ welcome: { activeteams: getActiveExams(project) }}));
 
   ws.on("message", (msg) => {
     console.log("Websocket received: ", msg);

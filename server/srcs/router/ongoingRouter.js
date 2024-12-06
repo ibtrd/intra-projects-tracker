@@ -1,5 +1,5 @@
 const express = require("express");
-const ActiveTeam = require("../mongo_models/ActiveTeam");
+const ActiveExam = require("../mongo_models/ActiveExam");
 const ongoingRouter = express.Router();
 
 ongoingRouter.get("/", ongoingProjectUsers);
@@ -7,10 +7,10 @@ ongoingRouter.get("/", ongoingProjectUsers);
 async function ongoingProjectUsers(req, res) {
   const projectId = req.query.filter ? req.query.filter.project_id : null;
   try {
-    const query = await ActiveTeam.find(projectId ? { id: projectId } : {})
+    const query = await ActiveExam.find(projectId ? { id: projectId } : {})
       .populate("user")
       .populate("project");
-    const payload = query.map((entry) => {
+    const payload = query.map((entry) =>{
       return {
         login: entry.user.login,
         project: {

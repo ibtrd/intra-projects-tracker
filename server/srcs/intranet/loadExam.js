@@ -1,36 +1,10 @@
-const e = require("express");
-const ActiveTeam = require("../mongo_models/ActiveTeam");
-const Project = require("../mongo_models/Project");
-const ProjectUser = require("../mongo_models/ProjectUser");
+const ActiveExam = require("../mongo_models/ActiveExam");
 const User = require("../mongo_models/User");
 const { wsBroadcast, wsAddtoPayload } = require("../websocket/websocket");
 const { api42 } = require("./api42");
 const { teamStart } = require("./teamStart");
 
-module.exports.loadProjectUsers = async function () {
-  const projects = await Project.find({ tracking: true });
-  const options = {
-    filter: { campus: 9 },
-    range: {
-      updated_at: [dateMinutesAgo(5).toISOString(), "2042-01-01T00:00:00.000Z"],
-    },
-  };
-  try {
-    for (const project of projects) {
-      await loadProject(project, options);
-    }
-  } catch (err) {
-    console.error(`Failed to fetch intranet: ${err.message}`);
-  }
-};
-
-function dateMinutesAgo(minutes) {
-  const date = new Date();
-  date.setMinutes(date.getMinutes() - minutes);
-  return date;
-}
-
-async function loadProject(project, options) {
+async function loadExam(project, options) {
   console.log(`Loading: ${project.name} (${project.id})`);
   const query = await api42.getProjectProjectUsers(project.id, options);
   for (const entry of query) {
@@ -40,7 +14,7 @@ async function loadProject(project, options) {
     }
     const user = await User.getById(entry.user);
     entry.team = entry.teams[entry.teams.length - 1];
-    let activeTeam = await ActiveTeam.findOne({ id: entry.team.id });
+    let activeTeam = await ActiveExam.findOne({ id: entry.team.id });
     if (activeTeam) {
       if (entry.team.closed_at && !activeTeam.closed_at) {
         activeTeam.closed_at = entry.team.closed_at;
@@ -68,8 +42,9 @@ async function loadProject(project, options) {
     ) {
       await teamStart(entry.team, project, user);
     }
-    const projectUser = await ProjectUser.syncIntra(project, user, entry);
   }
   console.log(`processed ${query.length} entries`);
   wsBroadcast(project.id);
 }
+
+module.exports = loadExam;
