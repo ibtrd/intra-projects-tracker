@@ -1,7 +1,6 @@
-const ActiveExam = require("../mongo_models/ActiveExam");
 const LoggedProject = require("../mongo_models/LoggedProject");
 const User = require("../mongo_models/User");
-const { wsBroadcast, wsAddtoPayload } = require("../websocket/websocket");
+const { wsBroadcastProjects, wsAddtoPayload } = require("../websocket/websocket");
 const { api42 } = require("./api42");
 
 async function loadProject(project, options) {
@@ -23,7 +22,13 @@ async function loadProject(project, options) {
         validated: entry.team["validated?"],
         closed_at: entry.team.closed_at,
       });
-      if (log.validated) {
+      wsAddtoPayload('projects', null, {
+        users: entry.team.users.map((user) => user.login),
+        project: project.name,
+        grade: entry.team.final_mark,
+        validated: entry.team["validated?"],
+      });
+      if (entry.team["validated?"]) {
         console.log(
           `${entry.team.users.map((user) => user.login).join("/")} validated ${
             project.name
@@ -38,7 +43,6 @@ async function loadProject(project, options) {
       }
     }
   }
-  // wsBroadcast(project.id);
 }
 
 module.exports = loadProject;

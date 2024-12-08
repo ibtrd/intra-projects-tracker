@@ -1,6 +1,6 @@
 const ActiveExam = require("../mongo_models/ActiveExam");
 const User = require("../mongo_models/User");
-const { wsBroadcast, wsAddtoPayload } = require("../websocket/websocket");
+const { wsBroadcastExam, wsAddtoPayload } = require("../websocket/websocket");
 const { api42 } = require("./api42");
 const { teamStart } = require("./teamStart");
 
@@ -43,8 +43,7 @@ async function loadExam(project, options) {
       await teamStart(entry.team, project, user);
     }
   }
-  console.log(`processed ${query.length} entries`);
-  wsBroadcast(project.id);
+  wsBroadcastExam(project.id);
 }
 
 module.exports = loadExam;

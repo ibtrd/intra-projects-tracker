@@ -2,6 +2,7 @@ const Project = require("../mongo_models/Project");
 const { dateMinutesAgo } = require("../dates/dateMinutesAgo");
 const loadExam = require("./loadExam");
 const loadProject = require("./loadProject");
+const { wsBroadcastProjects } = require("../websocket/websocket");
 
 const examOptions = {
   filter: { campus: 9 },
@@ -24,7 +25,7 @@ async function loadTrackedExams() {
 const projectOptions = {
   filter: { campus: 9 },
   range: {
-    updated_at: [dateMinutesAgo(60).toISOString(), "2042-01-01T00:00:00.000Z"],
+    updated_at: [dateMinutesAgo(900).toISOString(), "2042-01-01T00:00:00.000Z"],
   },
 };
 
@@ -35,8 +36,9 @@ async function loadTrackedProjects() {
       await loadProject(project, projectOptions);
     }
   } catch (err) {
-    console.error(`Failed to load tracked projects: ${err.message}`);
+    console.error(`Failed to load tracked projects: ${err}`);
   }
-}
+  wsBroadcastProjects();
+};
 
 module.exports = { loadTrackedExams, loadTrackedProjects };
