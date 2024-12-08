@@ -22,7 +22,7 @@ mongoose
     const port = 4000;
     app.listen(port, () => console.log(`Server is running on port ${port}`));
     if (!await Project.find())
-      await loadIntraProjects();
+      // await loadIntraProjects();
     // await loadTrackedExams();
     await loadTrackedProjects();
     setInterval(loadTrackedExams, 30 * 1000); // Every 30seconds

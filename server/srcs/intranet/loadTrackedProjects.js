@@ -25,18 +25,18 @@ async function loadTrackedExams() {
 const projectOptions = {
   filter: { campus: 9 },
   range: {
-    updated_at: [dateMinutesAgo(900).toISOString(), "2042-01-01T00:00:00.000Z"],
+    updated_at: [dateMinutesAgo(5000).toISOString(), "2042-01-01T00:00:00.000Z"],
   },
 };
 
 async function loadTrackedProjects() {
   const projects = await Project.find({ tracking: true, exam: false });
-  try {
-    for (const project of projects) {
+  for (const project of projects) {
+    try {
       await loadProject(project, projectOptions);
+    } catch (err) {
+      console.error(`Failed to load tracked projects: ${err}`);
     }
-  } catch (err) {
-    console.error(`Failed to load tracked projects: ${err}`);
   }
   wsBroadcastProjects();
 };

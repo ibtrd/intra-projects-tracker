@@ -31,8 +31,6 @@ projectsRouter.ws("/notify", async function (ws, req) {
     console.log(`WebSocket ${project_id}#${index} connection closed`);
     if (!wsClients.get(project_id).clients.length) {
       wsClients.delete(project_id);
-      const project = await Project.findOne({ id: project_id });
-      await project.untrack();
     }
   });
 

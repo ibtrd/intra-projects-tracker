@@ -1,7 +1,6 @@
 const wsClients = new Map();
 
 function wsAddtoPayload(id, key, data) {
-  console.log('PUSHING payload:' , data);
   id = id.toString();
   if (!wsClients.has(id)) {
     return;
@@ -45,6 +44,8 @@ function wsBroadcastProjects() {
   }
   const clients = wsClients.get(id).clients;
   const payload = wsClients.get(id).payload;
+  if (!payload.length)
+    return;
   clients.forEach((ws, index) => {
     if (ws.readyState === ws.OPEN) {
       try {
