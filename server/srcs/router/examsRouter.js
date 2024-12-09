@@ -1,9 +1,10 @@
 const express = require("express");
 const Project = require("../mongo_models/Project");
 const { wsClients } = require("../websocket/websocket");
+const { sendExams } = require("../intranet/sendExams");
 const examsRouter = express.Router();
 
-// examsRouter.get("/", sendexams);
+examsRouter.get("/", sendExams);
 
 examsRouter.ws("/:project_id/notify", async function (ws, req) {
   const { project_id } = req.params;
