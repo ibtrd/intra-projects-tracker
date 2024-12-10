@@ -6,13 +6,15 @@ services:
     container_name: server
     restart: always
     ports:
-      - 4000:4000   
+      - 3000:3000   
     volumes:
       - ./server/srcs:/app
       - /app/node_modules
     environment:
       API42_UID: ${API42_UID}
       API42_SECRET: ${API42_SECRET}
+      API42_REDIRECT_URI: ${API42_REDIRECT_URI}
+      API_MASTER_KEY: ${API_MASTER_KEY}
       API42_DEV: true
       MONGO_URL: ${MONGO_URL}
       MONGO_DATABASE: ${MONGO_DATABASE}
@@ -27,8 +29,13 @@ services:
       - ./discord-bot/srcs:/app
       - /app/node_modules
     environment:
+      API42_UID: ${API42_UID}
+      API42_SECRET: ${API42_SECRET}
+      API42_REDIRECT_URI: ${API42_REDIRECT_URI}
       DISCORD_TOKEN: ${DISCORD_TOKEN}
       MONGO_URL: ${MONGO_URL}
+      MONGO_DATABASE: ${MONGO_DATABASE}
+      API_MASTER_KEY: ${API_MASTER_KEY}
     depends_on:
       - server
 

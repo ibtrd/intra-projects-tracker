@@ -8,7 +8,6 @@ const { sendProjectMessages } = require('./validate');
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
-
 // Load slash commands
 client.commands = new Collection();
 
@@ -50,14 +49,12 @@ client.on(Events.InteractionCreate, async interaction => {
 });
 
 // When the client is ready, run this code (only once).
-// The distinction between `client: Client<boolean>` and `readyClient: Client<true>` is important for TypeScript developers.
-// It makes some properties non-nullable.
 client.once(Events.ClientReady, readyClient => {
 	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
 });
 
 // Connect to mongodb
-const mongoURI = `${process.env.MONGO_URL}/disord-bot`;
+const mongoURI = `${process.env.MONGO_URL}/${process.env.MONGO_DATABASE}`;
 mongoose
   .connect(mongoURI)
   .then(async () => {
@@ -73,7 +70,7 @@ mongoose
   });
 
 let ws;
-const WS_URL = 'ws://server:4000/projects/notify'
+const WS_URL = 'ws://server:3000/projects/notify'
 let reconnectInterval = 5000;
 
 function connectWebSocket() {
