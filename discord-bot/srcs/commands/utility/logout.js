@@ -7,7 +7,6 @@ module.exports = {
     .setDescription("Unlink from 42Intra"),
   async execute(interaction) {
     const me = await User.findOne({ discord_id: interaction.user.id });
-    console.log(me);
     if (!me) {
       return await interaction.reply({
         content: `You are not currently logged in.`,

@@ -10,11 +10,12 @@ async function teamStart(intraTeam, project, user) {
     grade: intraTeam.final_mark,
     closed_at: intraTeam.closed_at,
   });
-  wsAddtoPayload(project.id, "start", {
+  wsAddtoPayload(project.id, {
+    type: 'begin',
     login: user.login,
     grade: intraTeam.final_mark,
   });
   return activeTeam;
 };
 
-module.exports = teamStart;
+module.exports = { teamStart };

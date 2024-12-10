@@ -2,9 +2,14 @@ const express = require("express");
 const Project = require("../mongo_models/Project");
 const { wsClients } = require("../websocket/websocket");
 const { sendExams } = require("../intranet/sendExams");
+const { getActiveExams } = require("../intranet/getActiveExams");
 const examsRouter = express.Router();
 
 examsRouter.get("/", sendExams);
+examsRouter.get("/:project_id/teams", async (req, res) => {
+  const project = await Project.findOne({ id: req.params.project_id});
+  res.send(await getActiveExams(project));
+});
 
 examsRouter.ws("/:project_id/notify", async function (ws, req) {
   const { project_id } = req.params;
@@ -19,7 +24,7 @@ examsRouter.ws("/:project_id/notify", async function (ws, req) {
 
   if (!wsClients.has(project_id)) {
     wsClients.set(project_id, {
-      payload: { start: [], update: [], end: [] },
+      payload: [],
       clients: [],
     });
   }
@@ -29,7 +34,7 @@ examsRouter.ws("/:project_id/notify", async function (ws, req) {
       .get(project_id)
       .clients.indexOf(ws)} connection established`
   );
-  // ws.send(JSON.stringify({ welcome: { activeteams: getActiveExams(project) }}));
+  ws.send(JSON.stringify({ type: 'welcome', payload: await getActiveExams(project) }));
 
   ws.on("message", (msg) => {
     console.log("Websocket received: ", msg);

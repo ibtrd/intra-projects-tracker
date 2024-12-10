@@ -22,8 +22,7 @@ async function loadProject(project, options) {
         validated: entry.team["validated?"],
         closed_at: entry.team.closed_at,
       });
-      console.log(entry.team);
-      wsAddtoPayload('projects', null, {
+      wsAddtoPayload('projects', {
         link: `https://projects.intra.42.fr/projects/${project.id}/projects_users/${entry.id}`,
         users: entry.team.users.map((user) => user.login),
         project: project.name,

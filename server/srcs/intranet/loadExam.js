@@ -20,7 +20,8 @@ async function loadExam(project, options) {
         activeTeam.closed_at = entry.team.closed_at;
         await activeTeam.save();
         console.log(`${user.login} finished ${project.name}`);
-        wsAddtoPayload(project.id, "end", {
+        wsAddtoPayload(project.id, {
+          type: "end",
           login: user.login,
           grade: entry.team.final_mark,
         });
@@ -30,7 +31,8 @@ async function loadExam(project, options) {
       ) {
         activeTeam.grade = entry.team.final_mark;
         await activeTeam.save();
-        wsAddtoPayload(project.id, "update", {
+        wsAddtoPayload(project.id, {
+          type: "update",
           login: user.login,
           grade: entry.team.final_mark,
         });
