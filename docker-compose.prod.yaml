@@ -6,7 +6,7 @@ services:
     volumes:
     - ./nginx:/etc/nginx/templates
     ports:
-    - "8080:443"
+    - "443:443"
     environment:
     - NGINX_HOST= ${NGINX_HOST}
     secrets:
@@ -48,27 +48,16 @@ services:
     restart: always
     volumes:
       - database:/data/db
+    ports:
+      - "127.0.0.1:27017:27017"
     environment:
       MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
 
-  mongo-express:
-    image: mongo-express
-    container_name: mongo-express
-    restart: always
-    ports:
-      - 8081:8081
-    environment:
-      ME_CONFIG_MONGODB_URL: ${MONGO_URL}
-      ME_CONFIG_BASICAUTH: true
-      ME_CONFIG_BASICAUTH_USERNAME: ${ME_WEB_USERNAME}
-      ME_CONFIG_BASICAUTH_PASSWORD: ${ME_WEB_PASSWORD}
-
 volumes:
   database:
-  redis:
 
 secrets:
   ssl_cert:
-    file: ./secrets/ssl/localhost.crt
+    file: /etc/letsencrypt/live/ibertran.dev/fullchain.pem
   ssl_key:
-    file: ./secrets/ssl/localhost.key
+    file: /etc/letsencrypt/live/ibertran.dev/privkey.pem
