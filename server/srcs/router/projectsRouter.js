@@ -46,7 +46,6 @@ async function sendProjects(req, res) {
       return {
         id: project.id,
         name: project.name,
-        exam: project.exam
       };
     }),
   );

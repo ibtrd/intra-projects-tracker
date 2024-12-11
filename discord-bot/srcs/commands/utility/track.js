@@ -1,4 +1,8 @@
-const { SlashCommandBuilder, PermissionFlagsBits, InteractionContextType } = require("discord.js");
+const {
+  SlashCommandBuilder,
+  PermissionFlagsBits,
+  InteractionContextType,
+} = require("discord.js");
 const DiscordGuild = require("../../mongo_models/DiscordServer");
 
 module.exports = {

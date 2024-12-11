@@ -1,19 +1,50 @@
 services:
+  nginx:
+    image: nginx
+    container_name: nginx
+    restart: always 
+    volumes:
+    - ./nginx:/etc/nginx/templates
+    ports:
+    - "8080:443"
+    environment:
+    - NGINX_HOST= ${NGINX_HOST}
+    secrets:
+      - ssl_cert
+      - ssl_key
+
   server:
     build:
       context: ./server
       dockerfile: Dockerfile.prod
-    restart: always
-    ports:
-      - 3000:3000
+    container_name: server
+    restart: always  
     environment:
       API42_UID: ${API42_UID}
       API42_SECRET: ${API42_SECRET}
+      API42_REDIRECT_URI: ${API42_REDIRECT_URI}
+      API_MASTER_KEY: ${API_MASTER_KEY}
       MONGO_URL: ${MONGO_URL}
       MONGO_DATABASE: ${MONGO_DATABASE}
+  
+  bot:
+    build:
+      context: ./discord-bot
+      dockerfile: Dockerfile.prod
+    container_name: bot
+    restart: always
+    environment:
+      API42_UID: ${API42_UID}
+      API42_SECRET: ${API42_SECRET}
+      API42_REDIRECT_URI: ${API42_REDIRECT_URI}
+      DISCORD_TOKEN: ${DISCORD_TOKEN}
+      MONGO_URL: ${MONGO_URL}
+      MONGO_DATABASE: ${MONGO_DATABASE}
+      API_MASTER_KEY: ${API_MASTER_KEY}
 
   mongo:
     image: mongo
+    container_name: mongo
     restart: always
     volumes:
       - database:/data/db
@@ -22,6 +53,7 @@ services:
 
   mongo-express:
     image: mongo-express
+    container_name: mongo-express
     restart: always
     ports:
       - 8081:8081
@@ -34,3 +66,9 @@ services:
 volumes:
   database:
   redis:
+
+secrets:
+  ssl_cert:
+    file: ./secrets/ssl/localhost.crt
+  ssl_key:
+    file: ./secrets/ssl/localhost.key
