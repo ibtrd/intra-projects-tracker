@@ -1,6 +1,7 @@
 const express = require("express");
+var expressWs = require("express-ws");
 const app = express();
-var expressWs = require("express-ws")(app);
+expressWs(app);
 
 const mongoose = require("mongoose");
 const Project = require("./mongo_models/Project");
