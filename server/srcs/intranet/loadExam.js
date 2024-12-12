@@ -24,10 +24,12 @@ async function loadExam(project, options) {
           type: "end",
           login: user.login,
           grade: entry.team.final_mark,
+          closed_at: entry.team.closed_at,
         });
       } else if (
+        !activeTeam.closed_at &&
         entry.team.status === "in_progress" &&
-        entry.team.final_mark > activeTeam.grade
+        entry.team.final_mark != activeTeam.grade
       ) {
         activeTeam.grade = entry.team.final_mark;
         await activeTeam.save();
@@ -35,6 +37,7 @@ async function loadExam(project, options) {
           type: "update",
           login: user.login,
           grade: entry.team.final_mark,
+          closed_at: entry.team.closed_at
         });
         console.log(`${user.login} - ${project.name} - ${activeTeam.grade}`);
       }

@@ -14,6 +14,7 @@ async function teamStart(intraTeam, project, user) {
     type: 'begin',
     login: user.login,
     grade: intraTeam.final_mark,
+    closed_at: intraTeam.closed_at
   });
   return activeTeam;
 };

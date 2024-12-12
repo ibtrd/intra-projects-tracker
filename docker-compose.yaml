@@ -5,7 +5,7 @@ services:
     volumes:
     - ./nginx:/etc/nginx/templates
     ports:
-    - "443:443"
+    - "8080:443"
     environment:
     - NGINX_HOST= ${NGINX_HOST}
     secrets:
@@ -20,6 +20,8 @@ services:
     volumes:
       - ./server/srcs:/app
       - /app/node_modules
+    ports:
+      - "3000:3000"
     environment:
       API42_UID: ${API42_UID}
       API42_SECRET: ${API42_SECRET}

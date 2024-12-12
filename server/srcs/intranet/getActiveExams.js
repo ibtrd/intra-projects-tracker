@@ -9,6 +9,7 @@ async function getActiveExams(project) {
             return {
                 login: team.user.login,
                 grade: team.grade,
+                closed_at: team.closed_at
             }
         }
         return null;

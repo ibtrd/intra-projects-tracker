@@ -27,7 +27,7 @@ mongoose
     app.listen(port, () => console.log(`Server is running on port ${port}`));
     if (process.env.API42_DEV)
       api42.setDebugMode(true);
-    await loadIntraProjects();
+    // await loadIntraProjects();
     // await loadTrackedExams();
     // await loadTrackedProjects();
     setInterval(loadTrackedExams, 10 * 1000); // Every 30seconds

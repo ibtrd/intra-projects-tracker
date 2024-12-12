@@ -7,7 +7,7 @@ const { wsBroadcastProjects } = require("../websocket/websocket");
 const examOptions = {
   filter: { campus: 9 },
   range: {
-    updated_at: [dateMinutesAgo(5).toISOString(), "2042-01-01T00:00:00.000Z"],
+    updated_at: [dateMinutesAgo(60 * 3).toISOString(), "2042-01-01T00:00:00.000Z"],
   },
 };
 
