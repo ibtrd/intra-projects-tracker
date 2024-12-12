@@ -1,23 +1,18 @@
 services:
   nginx:
     image: nginx
-    container_name: nginx
     restart: always 
     volumes:
     - ./nginx:/etc/nginx/templates
     ports:
-    - "443:443"
+    - "127.0.0.1:8081:443"
     environment:
     - NGINX_HOST= ${NGINX_HOST}
-    secrets:
-      - ssl_cert
-      - ssl_key
 
   server:
     build:
       context: ./server
       dockerfile: Dockerfile.prod
-    container_name: server
     restart: always  
     environment:
       API42_UID: ${API42_UID}
@@ -31,7 +26,6 @@ services:
     build:
       context: ./discord-bot
       dockerfile: Dockerfile.prod
-    container_name: bot
     restart: always
     environment:
       API42_UID: ${API42_UID}
@@ -44,7 +38,6 @@ services:
 
   mongo:
     image: mongo
-    container_name: mongo
     restart: always
     volumes:
       - database:/data/db
@@ -56,8 +49,3 @@ services:
 volumes:
   database:
 
-secrets:
-  ssl_cert:
-    file: /etc/letsencrypt/live/ibertran.dev/privkey.pem
-  ssl_key:
-    file: /etc/letsencrypt/live/ibertran.dev/privkey.pem
