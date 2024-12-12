@@ -58,6 +58,6 @@ volumes:
 
 secrets:
   ssl_cert:
-    file: /etc/letsencrypt/live/ibertran.dev/fullchain.pem
+    file: ./secrets/ibertran.dev.cer
   ssl_key:
-    file: /etc/letsencrypt/live/ibertran.dev/privkey.pem
+    file: ./secrets/ibertran.dev.key

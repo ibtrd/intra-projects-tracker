@@ -31,12 +31,14 @@ mongoose
     // await loadIntraProjects();
     // await loadTrackedExams();
     // await loadTrackedProjects();
-    setInterval(loadTrackedExams, 10 * 1000); // Every 30seconds
-    setInterval(loadTrackedProjects, 30 * 1000); // Every 30seconds
+    // setInterval(loadTrackedExams, 10 * 1000); // Every 30seconds
+    // setInterval(loadTrackedProjects, 30 * 1000); // Every 30seconds
+    
     // cron.schedule('* * * * *', loadTrackedProjects); // Every minute
-    // cron.schedule('* * * * *', loadTrackedExams); // Every minute
-    // cron.schedule('* 9-15 * * 2', loadTrackedExams); //Tuesday Exam
-    // cron.schedule('* 13-18 * * 4', loadTrackedExams); //Thursday Exam
+    cron.schedule('* * * * *', loadTrackedProjects); // Every minute
+    cron.schedule('* 9-15 * * 2', loadTrackedExams); //Tuesday Exams
+    cron.schedule('* 13-18 * * 4', loadTrackedExams); //Thursday Exams
+    cron.schedule('42 0 * * 4', loadIntraProjects);
   })
   .catch((err) => {
     console.error("MongoDB connection error:", err);
