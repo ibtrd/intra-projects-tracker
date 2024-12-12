@@ -8,6 +8,8 @@ services:
     - "127.0.0.1:8081:443"
     environment:
     - NGINX_HOST= ${NGINX_HOST}
+    networks:
+      - webnet
 
   server:
     build:
@@ -49,3 +51,6 @@ services:
 volumes:
   database:
 
+networks:
+  webnet:
+    driver: bridge
