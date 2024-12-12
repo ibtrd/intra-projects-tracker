@@ -23,7 +23,11 @@ services:
       API_MASTER_KEY: ${API_MASTER_KEY}
       MONGO_URL: ${MONGO_URL}
       MONGO_DATABASE: ${MONGO_DATABASE}
-  
+    networks:
+      - webnet
+      - discord-bot
+      - database
+
   bot:
     build:
       context: ./discord-bot
@@ -37,6 +41,9 @@ services:
       MONGO_URL: ${MONGO_URL}
       MONGO_DATABASE: ${MONGO_DATABASE}
       API_MASTER_KEY: ${API_MASTER_KEY}
+      networks:
+        - discord-bot
+        - database
 
   mongo:
     image: mongo
@@ -47,10 +54,16 @@ services:
       - "127.0.0.1:27017:27017"
     environment:
       MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
+    networks:
+      - database
 
 volumes:
   database:
 
 networks:
   webnet:
+    driver: bridge
+  discord-bot:
+    driver: bridge
+  database:
     driver: bridge
