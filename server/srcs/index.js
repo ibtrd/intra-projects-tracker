@@ -26,19 +26,17 @@ mongoose
     // Starts server
     const port = 3000;
     app.listen(port, () => console.log(`Server is running on port ${port}`));
-    if (process.env.API42_DEV)
+    if (process.env.API42_DEV) {
+      // await loadIntraProjects();
       api42.setDebugMode(true);
-    // await loadIntraProjects();
-    // await loadTrackedExams();
-    // await loadTrackedProjects();
-    // setInterval(loadTrackedExams, 10 * 1000); // Every 30seconds
-    // setInterval(loadTrackedProjects, 30 * 1000); // Every 30seconds
-    
-    // cron.schedule('* * * * *', loadTrackedProjects); // Every minute
-    cron.schedule('* * * * *', loadTrackedProjects); // Every minute
-    cron.schedule('* 9-15 * * 2', loadTrackedExams); //Tuesday Exams
-    cron.schedule('* 13-18 * * 4', loadTrackedExams); //Thursday Exams
-    cron.schedule('42 0 * * 4', loadIntraProjects);
+      setInterval(loadTrackedExams, 10 * 1000); // Every 30seconds
+      setInterval(loadTrackedProjects, 30 * 1000); // Every 30seconds
+    } else {
+      cron.schedule('* * * * *', loadTrackedProjects); // Every minute
+      cron.schedule('* 9-15 * * 2', loadTrackedExams); //Tuesday Exams
+      cron.schedule('* 13-18 * * 4', loadTrackedExams); //Thursday Exams
+      cron.schedule('42 0 * * 4', loadIntraProjects);
+    }    
   })
   .catch((err) => {
     console.error("MongoDB connection error:", err);

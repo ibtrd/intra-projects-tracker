@@ -4,10 +4,10 @@ services:
     restart: always 
     volumes:
     - ./nginx:/etc/nginx/templates
-    ports:
-    - "127.0.0.1:8081:443"
     environment:
     - NGINX_HOST= ${NGINX_HOST}
+    ports:
+      - "127.0.0.1:8081:443"
     networks:
       - webnet
 
@@ -25,8 +25,6 @@ services:
       MONGO_DATABASE: ${MONGO_DATABASE}
     networks:
       - webnet
-      - discord-bot
-      - database
 
   bot:
     build:
@@ -41,29 +39,24 @@ services:
       MONGO_URL: ${MONGO_URL}
       MONGO_DATABASE: ${MONGO_DATABASE}
       API_MASTER_KEY: ${API_MASTER_KEY}
-      networks:
-        - discord-bot
-        - database
+    networks:
+        - webnet
 
   mongo:
     image: mongo
     restart: always
     volumes:
       - database:/data/db
-    ports:
-      - "127.0.0.1:27017:27017"
     environment:
       MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
+    ports:
+      - "127.0.0.1:27017:27017"
     networks:
-      - database
+      - webnet
 
 volumes:
   database:
 
 networks:
   webnet:
-    driver: bridge
-  discord-bot:
-    driver: bridge
-  database:
     driver: bridge

@@ -130,3 +130,4 @@ dist
 .pnp.*
 discord-bot/srcs/config.json
 secrets/
+.vscode/extensions.json

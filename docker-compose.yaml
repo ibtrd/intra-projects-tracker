@@ -1,18 +1,19 @@
 services:
   nginx:
+    container_name: nginx
     image: nginx
-    restart: always 
+    restart: always
     volumes:
     - ./nginx:/etc/nginx/templates
-    ports:
-    - "8080:443"
     environment:
     - NGINX_HOST= ${NGINX_HOST}
-    secrets:
-      - ssl_cert
-      - ssl_key
+    ports:
+    - "8080:443"
+    networks:
+      - webnet
 
   server:
+    container_name: server
     build:
       context: ./server
       dockerfile: Dockerfile.dev
@@ -23,15 +24,18 @@ services:
     ports:
       - "3000:3000"
     environment:
+      API42_DEV: true
       API42_UID: ${API42_UID}
       API42_SECRET: ${API42_SECRET}
       API42_REDIRECT_URI: ${API42_REDIRECT_URI}
       API_MASTER_KEY: ${API_MASTER_KEY}
-      API42_DEV: true
       MONGO_URL: ${MONGO_URL}
       MONGO_DATABASE: ${MONGO_DATABASE}
+    networks:
+      - webnet
   
   bot:
+    container_name: bot
     build:
       context: ./discord-bot
       dockerfile: Dockerfile.dev
@@ -47,6 +51,8 @@ services:
       MONGO_URL: ${MONGO_URL}
       MONGO_DATABASE: ${MONGO_DATABASE}
       API_MASTER_KEY: ${API_MASTER_KEY}
+    networks:
+        - webnet
 
   mongo:
     image: mongo
@@ -55,24 +61,14 @@ services:
       - database:/data/db
     environment:
       MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
-
-  mongo-express:
-    image: mongo-express
-    restart: always
     ports:
-      - 8081:8081
-    environment:
-      ME_CONFIG_MONGODB_URL: ${MONGO_URL}
-      ME_CONFIG_BASICAUTH: true
-      ME_CONFIG_BASICAUTH_USERNAME: ${ME_WEB_USERNAME}
-      ME_CONFIG_BASICAUTH_PASSWORD: ${ME_WEB_PASSWORD}
+      - "127.0.0.1:27017:27017"
+    networks:
+      - webnet
 
 volumes:
   database:
-  redis:
 
-secrets:
-  ssl_cert:
-    file: ./secrets/ssl/localhost.crt
-  ssl_key:
-    file: ./secrets/ssl/localhost.key
+networks:
+  webnet:
+    driver: bridge
