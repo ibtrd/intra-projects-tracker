@@ -54,6 +54,15 @@ services:
     networks:
       - webnet
 
+  exam-racer:
+    container_name: exam-racer
+    build:
+      context: ./exam-racer
+      dockerfile: Dockerfile.prod
+    restart: always
+    networks:
+      - webnet
+
 volumes:
   database:
 

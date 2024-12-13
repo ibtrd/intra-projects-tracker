@@ -1,0 +1,3 @@
+[submodule "exam-racer/repository"]
+	path = exam-racer/repository
+	url = git@github.com:UnRenardQuiDab/examStalker.git
