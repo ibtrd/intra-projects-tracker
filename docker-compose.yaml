@@ -24,7 +24,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      API42_DEV: true
+      API42_DEV: 'yes'
       API42_UID: ${API42_UID}
       API42_SECRET: ${API42_SECRET}
       API42_REDIRECT_URI: ${API42_REDIRECT_URI}

@@ -1,5 +1,5 @@
 server {
-    listen 443;
+    listen 80;
     server_name ${PROJECTS_TRACKER_HOST};
 
     location / {
@@ -12,7 +12,7 @@ server {
 }
 
 server {
-    listen 443;
+    listen 80;
     server_name ${EXAM_RACER_HOST};
 
     location / {
