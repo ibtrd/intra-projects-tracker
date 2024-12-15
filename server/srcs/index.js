@@ -27,15 +27,15 @@ mongoose
     const port = 3000;
     app.listen(port, () => console.log(`Server is running on port ${port}`));
     if (process.env.API42_DEV == 'development') {
-      await loadIntraProjects();
+      if (!(await Project.find()).length) await loadIntraProjects();
       api42.setDebugMode(true);
-      setInterval(loadTrackedExams, 10 * 1000); // Every 30seconds
+      setInterval(loadTrackedExams, 30 * 1000); // Every 30seconds
       setInterval(loadTrackedProjects, 30 * 1000); // Every 30seconds
     } else {
       cron.schedule('* * * * *', loadTrackedProjects); // Every minute
       cron.schedule('* 9-15 * * 2', loadTrackedExams); // Tuesday Exams
       cron.schedule('* 13-18 * * 4', loadTrackedExams); // Thursday Exams
-      cron.schedule('42 0 * * 4', loadIntraProjects); // 00:42
+      cron.schedule('42 0 * * 4', loadIntraProjects); // 00:42 AM
     }    
   })
   .catch((err) => {

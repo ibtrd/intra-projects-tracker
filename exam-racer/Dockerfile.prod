@@ -1,0 +1,19 @@
+FROM node:23 AS builder
+
+COPY repository/ .
+
+RUN npm install
+
+RUN npm run build
+
+FROM node:23
+
+WORKDIR /app
+
+COPY --from=builder build .
+
+EXPOSE 3000
+
+RUN npm install -g serve
+
+CMD [ "serve" ]

@@ -1,10 +1,22 @@
-
 server {
-    listen 443;
-    server_name ${NGINX_HOST};
+    listen 80;
+    server_name ${PROJECTS_TRACKER_HOST};
 
     location / {
         proxy_pass http://server:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "Upgrade";
+        proxy_set_header Host $host;
+    }
+}
+
+server {
+    listen 80;
+    server_name ${EXAM_RACER_HOST};
+
+    location / {
+        proxy_pass http://exam-racer:3000;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "Upgrade";

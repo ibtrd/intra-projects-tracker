@@ -5,9 +5,10 @@ services:
     volumes:
     - ./nginx:/etc/nginx/templates
     environment:
-    - NGINX_HOST= ${NGINX_HOST}
+      PROJECTS_TRACKER_HOST: ${PROJECTS_TRACKER_HOST}
+      EXAM_RACER_HOST: ${EXAM_RACER_HOST}
     ports:
-      - "127.0.0.1:8081:443"
+      - "127.0.0.1:8081:80"
     networks:
       - webnet
 
@@ -51,6 +52,14 @@ services:
       MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
     ports:
       - "127.0.0.1:27017:27017"
+    networks:
+      - webnet
+
+  exam-racer:
+    build:
+      context: ./exam-racer
+      dockerfile: Dockerfile.prod
+    restart: always
     networks:
       - webnet
 
