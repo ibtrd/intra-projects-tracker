@@ -5,8 +5,6 @@ services:
     restart: always
     volumes:
     - ./nginx:/etc/nginx/templates
-    environment:
-    - NGINX_HOST= ${NGINX_HOST}
     ports:
     - "8080:443"
     networks:
@@ -24,7 +22,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      API42_DEV: true
+      API42_DEV: 'development'
       API42_UID: ${API42_UID}
       API42_SECRET: ${API42_SECRET}
       API42_REDIRECT_URI: ${API42_REDIRECT_URI}
