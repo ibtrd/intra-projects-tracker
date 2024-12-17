@@ -9,7 +9,6 @@ async function loadExam(project, options) {
   const query = await api42.getProjectProjectUsers(project.id, options);
   for (const entry of query) {
     if (entry.user["staff?"] || !entry.user["active?"]) {
-      // console.warn(`ignored user: ${entry.user.login}`);
       continue;
     }
     const user = await User.getById(entry.user);
@@ -18,6 +17,7 @@ async function loadExam(project, options) {
     if (activeTeam) {
       if (entry.team.closed_at && !activeTeam.closed_at) {
         activeTeam.closed_at = entry.team.closed_at;
+        activeTeam.grade = entry.team.final_mark;
         await activeTeam.save();
         console.log(`${user.login} finished ${project.name}`);
         wsAddtoPayload(project.id, {

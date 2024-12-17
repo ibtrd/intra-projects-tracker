@@ -12,6 +12,7 @@ const examOptions = {
 };
 
 async function loadTrackedExams() {
+  console.log('Loading exams...');
   const projects = await Project.find({ tracking: true, exam: true });
   try {
     for (const project of projects) {
@@ -30,6 +31,7 @@ const projectOptions = {
 };
 
 async function loadTrackedProjects() {
+  console.log('Loading projects...');
   const projects = await Project.find({ tracking: true, exam: false });
   for (const project of projects) {
     try {
