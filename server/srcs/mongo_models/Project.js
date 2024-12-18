@@ -4,7 +4,7 @@ const ProjectSchema = new mongoose.Schema({
   id: { type: Number, required: true, unique: true },
   name: { type: String, required: true },
   exam: { type: Boolean, default: false },
-  tracking: { type: Boolean, default: false },
+  tracking: { type: Boolean, default: true },
 });
 
 ProjectSchema.methods.track = async function () {
