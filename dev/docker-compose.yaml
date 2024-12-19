@@ -1,23 +1,28 @@
 services:
   nginx:
+    container_name: nginx
     image: nginx
-    restart: always 
+    restart: always
     volumes:
     - ./nginx:/etc/nginx/templates
-    environment:
-      PROJECTS_TRACKER_HOST: ${PROJECTS_TRACKER_HOST}
-      EXAM_RACER_HOST: ${EXAM_RACER_HOST}
     ports:
-      - "127.0.0.1:8081:80"
+    - "8080:443"
     networks:
       - webnet
 
   server:
+    container_name: server
     build:
       context: ./server
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile.dev
     restart: always  
+    volumes:
+      - ./server/srcs:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
     environment:
+      API42_DEV: 'development'
       API42_UID: ${API42_UID}
       API42_SECRET: ${API42_SECRET}
       API42_REDIRECT_URI: ${API42_REDIRECT_URI}
@@ -26,12 +31,16 @@ services:
       MONGO_DATABASE: ${MONGO_DATABASE}
     networks:
       - webnet
-
+  
   bot:
+    container_name: bot
     build:
       context: ./discord-bot
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile.dev
     restart: always
+    volumes:
+      - ./discord-bot/srcs:/app
+      - /app/node_modules
     environment:
       API42_UID: ${API42_UID}
       API42_SECRET: ${API42_SECRET}
@@ -44,6 +53,7 @@ services:
         - webnet
 
   mongo:
+    container_name: mongo
     image: mongo
     restart: always
     volumes:
@@ -54,11 +64,14 @@ services:
       - "127.0.0.1:27017:27017"
     networks:
       - webnet
-
+    
   exam-racer:
+    container_name: exam-racer
     build:
       context: ./exam-racer
       dockerfile: Dockerfile.prod
+    ports:
+      - "3006:3000"
     restart: always
     networks:
       - webnet
