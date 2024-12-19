@@ -10,6 +10,11 @@ const ActiveExamSchema = new mongoose.Schema({
   },
   grade: { type: Number, required: true },
   closed_at: { type: Date, default: null },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    expires: 12 * 60 * 60, // Document expires after 12 hours
+  },
 });
 
 const ActiveExam = mongoose.model("ActiveExam", ActiveExamSchema);

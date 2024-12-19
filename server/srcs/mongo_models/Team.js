@@ -5,7 +5,7 @@ const TeamSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    expires: 3600, // Document expires after 3600 seconds (1 hour)
+    expires: 1 * 60 * 60, // Document expires after 1 hour
   },
 });
 
