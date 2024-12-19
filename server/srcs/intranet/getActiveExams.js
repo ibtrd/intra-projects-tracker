@@ -8,6 +8,7 @@ async function getActiveExams(project) {
         if (team.project._id.equals(project._id)) {
             return {
                 login: team.user.login,
+                image: team.image,
                 grade: team.grade,
                 closed_at: team.closed_at
             }

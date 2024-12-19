@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const ActiveExamSchema = new mongoose.Schema({
   id: { type: Number, required: true, unique: true },
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  image: { type: String, default: "https://profile.intra.42.fr/images/default.png" },
   project: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Project",

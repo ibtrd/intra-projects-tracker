@@ -13,6 +13,7 @@ async function ongoingProjectUsers(req, res) {
     const payload = query.map((entry) =>{
       return {
         login: entry.user.login,
+        image: entry.image,
         project: {
           name: entry.project.name,
           id: entry.project.id,

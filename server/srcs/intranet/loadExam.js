@@ -23,6 +23,7 @@ async function loadExam(project, options) {
         wsAddtoPayload(project.id, {
           type: "end",
           login: user.login,
+          image: entry.user.image.link,
           grade: entry.team.final_mark,
           closed_at: entry.team.closed_at,
         });
@@ -36,6 +37,7 @@ async function loadExam(project, options) {
         wsAddtoPayload(project.id, {
           type: "update",
           login: user.login,
+          image: entry.user.image.link,
           grade: entry.team.final_mark,
           closed_at: entry.team.closed_at
         });
@@ -45,7 +47,7 @@ async function loadExam(project, options) {
       entry.team.final_mark != null &&
       entry.team.status === "in_progress"
     ) {
-      await teamStart(entry.team, project, user);
+      await teamStart(entry, project, user);
     }
   }
   wsBroadcastExam(project.id);
