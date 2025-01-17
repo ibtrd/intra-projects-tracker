@@ -12,7 +12,7 @@ module.exports = {
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
     .setContexts(InteractionContextType.Guild),
   async execute(interaction) {
-    return interaction.reply("Sorry, this functionality has been deprecated!");
+    return await interaction.reply("Sorry, this functionality has been deprecated!");
     if (
       !interaction.member
         .permissionsIn(interaction.channel)
