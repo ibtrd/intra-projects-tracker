@@ -14,8 +14,15 @@ async function loadTeam(team) {
     project: project.name,
     grade: team.final_mark,
     validated: team["validated?"],
-    flags: team.scale_teams.map(scale => {
-      return { name: scale.flag.name, positive: scale.flag.positive }
+    evaluations: team.scale_teams.map(scale => {
+      return {
+        evaluator: scale.corrector.login,
+        grade: scale.final_mark,
+        flag: {
+          name: scale.flag.name,
+          positive: scale.flag.positive
+        },
+      };
     }),
   });
   if (team["validated?"]) {

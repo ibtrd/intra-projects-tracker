@@ -85,9 +85,8 @@ function connectWebSocket() {
     ws.on('message', (data) => {
         const message = JSON.parse(data);
         if (message.type === 'update') {
-            console.log('Update received:', message.data);
+          sendProjectMessages(client, message.payload);
         }
-        sendProjectMessages(client, message.payload);
     });
 
     // When WebSocket connection closes

@@ -33,9 +33,7 @@ mongoose
       // setInterval(loadTrackedProjects, 30 * 1000); // Every 30seconds
     } else {
       cron.schedule('* * * * *', loadTrackedProjects); // Every minute
-      cron.schedule('* 9-15 * * 2', loadTrackedExams); // Tuesday Exams
-      cron.schedule('* 13-18 * * 4', loadTrackedExams); // Thursday Exams
-      cron.schedule('42 0 * * 4', loadIntraProjects); // 00:42 AM
+      cron.schedule('* * * * *', loadTrackedExams); // Tuesday Exams
     }    
   })
   .catch((err) => {
