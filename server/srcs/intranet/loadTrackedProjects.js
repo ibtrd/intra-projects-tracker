@@ -17,7 +17,7 @@ const examOptions = {
 
 async function loadTrackedExams() {
   console.log("Loading exams...");
-  const projects = await Project.find({ tracking: true, exam: true });
+  const projects = await Project.find({ tracking: true, exam: true, blacklist: false });
   try {
     for (const project of projects) {
       await loadExam(project, examOptions);
@@ -44,6 +44,7 @@ async function loadTrackedProjects() {
       updated_at: [dateMinutesAgo(5).toISOString(), "2042-01-01T00:00:00.000Z"],
     }
   });
+  console.log(`${teams.length} ${teams.length == 1 ? "team" : "teams"} found`);
   for (const team of teams) {
     await loadTeam(team);
   };

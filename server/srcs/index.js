@@ -29,11 +29,13 @@ mongoose
     if (process.env.API42_DEV == 'development') {
       api42.setDebugMode(true);
       if (!(await Project.find()).length) await loadIntraProjects();
-      // setInterval(loadTrackedExams, 30 * 1000); // Every 30seconds
-      // setInterval(loadTrackedProjects, 30 * 1000); // Every 30seconds
+      loadTrackedProjects();
+      setInterval(loadTrackedExams, 30 * 1000); // Every 30seconds
+      setInterval(loadTrackedProjects, 30 * 1000); // Every 30seconds
     } else {
       cron.schedule('* * * * *', loadTrackedProjects); // Every minute
-      cron.schedule('* * * * *', loadTrackedExams); // Tuesday Exams
+      cron.schedule('* * * * *', loadTrackedExams); // Every minute
+      cron.schedule('42 0 * * 4', loadIntraProjects); // 00:42 AM
     }    
   })
   .catch((err) => {

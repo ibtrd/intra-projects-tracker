@@ -1,7 +1,7 @@
 const Project = require("../mongo_models/Project");
 
 async function sendExams(req, res) {
-    const exams = await Project.find({ exam: true });
+    const exams = await Project.find({ exam: true, blacklist: false });
     if (exams) {
         return res.send(exams.map(exam => {
             return {

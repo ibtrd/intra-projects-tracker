@@ -16,7 +16,9 @@ async function sendProjectMessages(client, payload) {
     for (const guild of guilds) {
       try {
         await client.channels.cache.get(guild.channel).send(message);
-      } catch (err) {}
+      } catch (err) {
+        console.error(err);
+      }
     }
   }
 }

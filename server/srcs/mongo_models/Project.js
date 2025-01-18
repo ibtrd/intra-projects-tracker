@@ -5,6 +5,7 @@ const ProjectSchema = new mongoose.Schema({
   name: { type: String, required: true },
   exam: { type: Boolean, default: false },
   tracking: { type: Boolean, default: true },
+  blacklist: { type: Boolean, default: false },
 });
 
 ProjectSchema.methods.track = async function () {
